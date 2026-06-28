@@ -1,111 +1,80 @@
-# Day2 Evidence
+# Day2 Evidence - 页面骨架与路由导航
 
 日期：2026-06-28
 
 ---
 
-## 一、今日新增页面
+## 1. 今日完成内容
 
-在 `src/views/` 目录下新增 6 个页面骨架，加上原有 HomeView 共 7 个页面：
+今天是校园轻集市项目的第二天开发，核心目标是搭建项目的基础页面骨架和路由导航体系。具体完成了以下工作：
 
-| 页面文件 | 页面名称 | 路由路径 | 功能说明 |
-|---------|---------|---------|---------|
-| [ListView.vue](file:///d:/1/campus-market-seed/campus-market-seed/src/views/ListView.vue) | 列表页 | `/list` | 商品/信息列表展示，包含搜索栏、分类筛选、商品卡片网格，支持点击跳转到详情页 |
-| [DetailView.vue](file:///d:/1/campus-market-seed/campus-market-seed/src/views/DetailView.vue) | 详情页 | `/detail/:id` | 单个商品信息展示，通过路由参数 id 获取商品数据，包含商品描述、价格、卖家信息及操作按钮 |
-| [PublishView.vue](file:///d:/1/campus-market-seed/campus-market-seed/src/views/PublishView.vue) | 发布页 | `/publish` | 发布信息入口（骨架已完成） |
-| [MessageView.vue](file:///d:/1/campus-market-seed/campus-market-seed/src/views/MessageView.vue) | 消息页 | `/message` | 消息通知入口（骨架已完成） |
-| [ProfileView.vue](file:///d:/1/campus-market-seed/campus-market-seed/src/views/ProfileView.vue) | 个人中心 | `/profile` | 用户个人中心入口（骨架已完成） |
-| [BoardView.vue](file:///d:/1/campus-market-seed/campus-market-seed/src/views/BoardView.vue) | 看板页 | `/board` | 数据统计概览，包含6个统计卡片（商品总数、在售商品、消息总数、注册用户、今日浏览、成交金额）、热门分类进度条、最近成交表格 |
+在页面层面，创建了8个功能页面的基础骨架，覆盖校园轻集市的四大核心业务板块：二手交易、失物招领、拼单搭子、跑腿委托，以及首页、发布信息、消息中心、个人中心等通用页面。每个页面都包含清晰的 h1 标题和一段业务描述文字，代码结构简洁统一，便于后续逐步填充真实业务逻辑。
 
-**页面完成度说明**：
-- ListView、DetailView、BoardView 已使用 Element Plus 组件完成基础 UI 和交互
-- PublishView、MessageView、ProfileView 目前为基础骨架，后续逐步完善
+在路由层面，配置了完整的 Vue Router 路由系统，为8个页面分别分配了语义清晰的 URL 路径，每个路由都配置了 name 和 meta.title，为后续页面标题切换、导航高亮、权限控制预留了扩展空间。同时在 main.ts 中确保了路由和 Pinia 的正确挂载，并创建了全局基础样式文件。
+
+在布局层面，将页面结构拆分为三个公共布局组件：AppLayout 作为整体页面容器、AppHeader 作为顶部品牌区域、AppNav 作为导航链接组件。这种组件化拆分使得布局职责清晰，后续维护时只需修改对应组件即可，不需要在每个页面重复编写导航代码。最后修改 App.vue 使其只引用 AppLayout 统一布局，并通过浏览器逐一验证了所有8个路由的可访问性、导航跳转、高亮效果和刷新稳定性。
 
 ---
 
-## 二、路由设计
+## 2. 页面与路由清单
 
-在 [src/router/index.ts](file:///d:/1/campus-market-seed/campus-market-seed/src/router/index.ts) 中配置完整路由系统：
+| 页面名称 | 路由路径 | 文件位置 |
+|---|---|---|
+| 首页 | / | src/views/HomeView.vue |
+| 二手交易 | /trade | src/views/TradeView.vue |
+| 失物招领 | /lost-found | src/views/LostFoundView.vue |
+| 拼单搭子 | /group-buy | src/views/GroupBuyView.vue |
+| 跑腿委托 | /errand | src/views/ErrandView.vue |
+| 发布信息 | /publish | src/views/PublishView.vue |
+| 消息中心 | /message | src/views/MessageView.vue |
+| 个人中心 | /user | src/views/UserCenterView.vue |
 
-### 路由表设计
-
-```typescript
-routes: [
-  { path: '/', redirect: '/home' },                    // 根路径重定向到首页
-  { path: '/home', name: 'Home', component: HomeView },
-  { path: '/list', name: 'List', component: () => import('@/views/ListView.vue') },
-  { path: '/detail/:id', name: 'Detail', component: () => import('@/views/DetailView.vue'), props: true },
-  { path: '/publish', name: 'Publish', component: () => import('@/views/PublishView.vue') },
-  { path: '/message', name: 'Message', component: () => import('@/views/MessageView.vue') },
-  { path: '/profile', name: 'Profile', component: () => import('@/views/ProfileView.vue') },
-  { path: '/board', name: 'Board', component: () => import('@/views/BoardView.vue') },
-]
-```
-
-### 路由设计要点
-
-1. **重定向处理**：根路径 `/` 自动重定向到 `/home`，确保用户访问根地址时有默认页面
-2. **路由懒加载**：除首页外，其他页面均使用 `() => import()` 动态导入方式，实现代码分割，优化首屏加载速度
-3. **动态路由参数**：详情页使用 `/detail/:id` 动态路由，通过 `props: true` 开启参数自动传递，在组件中可直接通过 props 或 `useRoute()` 获取 id
-4. **命名路由**：所有路由均配置 `name` 属性，便于编程式导航时使用名称跳转（如 `router.push({ name: 'Detail', params: { id } })`）
-5. **导航系统**：在 [App.vue](file:///d:/1/campus-market-seed/campus-market-seed/src/App.vue) 中使用 Element Plus 的 `<el-menu>` 组件实现水平导航栏，包含首页、列表、发布、消息、我的5个入口，并额外添加"数据看板"按钮
-6. **页面跳转**：列表页商品卡片绑定点击事件，携带商品 id 跳转到详情页；详情页提供返回按钮可回到列表页
+公共布局组件：
+- AppLayout.vue — src/components/AppLayout.vue
+- AppHeader.vue — src/components/AppHeader.vue
+- AppNav.vue — src/components/AppNav.vue
 
 ---
 
-## 三、遇到的问题
+## 3. AI 协作记录
 
-### 1. 项目根目录识别问题
-- **问题**：最初未注意到项目实际位于 `campus-market-seed/campus-market-seed/` 子目录中，文件创建路径错误
-- **解决**：通过 LS 工具确认正确目录结构后，所有文件操作均使用完整绝对路径
-- **教训**：操作前先确认目录结构，不要假设当前工作目录
+**使用的 AI 工具**：TRAE IDE 内置 AI 助手。
 
-### 2. Element Plus 图标名称错误
-- **问题**：构建时报错 `MISSING_EXPORT: "Home" is not exported by "@element-plus/icons-vue"`，使用了不存在的图标名称（Home、Goods、DataBoard）
-- **解决**：查阅 Element Plus 图标文档，将图标名修正为正确名称：
-  - `Home` → `House`
-  - `Goods` → `ShoppingCart`
-  - `DataBoard` → `DataAnalysis`
-- **教训**：使用第三方库组件时，要对照官方文档确认 API 和导出名称，不能凭猜测起名
+**核心提示词与 AI 输出内容**：
 
-### 3. Element Plus 图标库未单独安装
-- **问题**：安装 Element Plus 后，直接导入图标组件报错，因为图标包 `@element-plus/icons-vue` 需要单独安装
-- **解决**：执行 `npm install @element-plus/icons-vue` 单独安装图标库
-- **教训**：注意 UI 库的分包策略，组件库和图标库可能是独立的包
+1. **页面骨架创建**：提示词要求在 src/views 下创建8个指定名称的页面文件，每个页面使用统一的基础结构（script setup + main.page + h1 + p + .page padding 样式）。AI 批量生成了 HomeView、TradeView、LostFoundView、GroupBuyView、ErrandView、PublishView、MessageView、UserCenterView 共8个文件，代码格式统一规范。
 
-### 4. 导航激活状态同步
-- **问题**：页面刷新后，导航菜单的激活状态未根据当前路由自动更新
-- **解决**：使用 `useRoute()` 获取当前路径，绑定到 `<el-menu>` 的 `default-active` 属性，并在菜单选择时更新 activeIndex
-- **收获**：理解了响应式数据与路由状态同步的方式
+2. **路由配置**：提示词给出了推荐的路由配置代码，包含路径、名称、组件导入和 meta.title。AI 按照推荐格式更新了 router/index.ts，使用 @/ 路径别名导入组件，为每个路由添加了语义化的 meta 标题。
+
+3. **布局组件**：提示词提供了 AppNav、AppHeader、AppLayout 三个组件的示例代码。AI 按照示例创建了三个组件文件，并更新了 App.vue 使其引用 AppLayout。
+
+**人工检查与修改内容**：
+
+- AI 最初生成的 GroupBuyView 页面 h1 标题为"团购拼单"，ErrandView 为"跑腿服务"，与导航栏和路由 meta.title 中的"拼单搭子""跑腿委托"不一致，人工检查发现后统一修改为与导航一致的标题。
+- AI 生成页面时部分页面的 p 标签描述文字过于简单或不够准确，人工调整了描述内容使其更贴合校园业务场景。
+- 浏览器逐一验证8个路由时，确认了所有页面均可正常打开、点击导航可正常跳转、当前页导航高亮正确、刷新页面后仍能正常显示。
+- 验证过程中发现旧代码中残留的 /board 路由引用可能导致警告，确认这是 HMR 缓存导致，清理后无异常。
 
 ---
 
-## 四、AI 协作记录
+## 4. 遇到的问题与解决方法
 
-### 协作任务1：创建页面骨架
-- **Prompt**：在 src/views/ 下新增6个页面，每个页面包含指定的 template 结构
-- **AI 输出**：批量创建了6个 .vue 文件，保持了与 HomeView.vue 一致的代码风格（script setup + template + style scoped）
-- **验证**：文件全部创建成功，TypeScript 检查通过
+**问题一：页面标题与导航名称不一致**
 
-### 协作任务2：配置路由系统
-- **Prompt**：在 router/index.ts 中添加7个路由，使用懒加载方式
-- **AI 输出**：更新路由配置，添加了重定向、懒加载导入、命名路由
-- **自己调整**：后续进阶任务中将 `/detail` 改为 `/detail/:id` 并添加 `props: true`
-- **验证**：vue-tsc 和 vite build 均通过
+在创建页面骨架时，AI 按照文件名直译生成了 h1 标题（如 GroupBuyView 对应"团购拼单"，ErrandView 对应"跑腿服务"），但导航栏和路由 meta.title 中使用的是产品视角的命名（"拼单搭子""跑腿委托"）。这导致用户在页面上看到的标题和点击的导航文字不匹配，造成认知困惑。
 
-### 协作任务3：导航栏与 Element Plus 集成
-- **Prompt**：使用 Element Plus 的 el-menu 组件优化导航，实现看板页统计展示，实现列表到详情的跳转
-- **AI 输出**：
-  - 安装并配置 Element Plus（main.ts 中注册）
-  - App.vue 改用 el-menu + el-container 布局，带图标导航
-  - ListView 实现搜索栏、商品卡片网格，点击跳转详情
-  - DetailView 实现 el-descriptions 展示商品详情，支持 id 参数
-  - BoardView 实现统计卡片、进度条、成交表格
-- **问题修正**：AI 输出中图标名称有误，手动查文档修正后构建成功
-- **验证**：开发服务器启动正常，页面可正常访问和跳转
+解决方法：在浏览器逐一检查8个页面时发现了这个问题，手动将 GroupBuyView.vue 的 h1 从"团购拼单"改为"拼单搭子"，ErrandView.vue 的 h1 从"跑腿服务"改为"跑腿委托"，同时微调了描述文字，确保页面标题、导航文字、路由标题三者完全一致。这个教训说明 AI 生成代码后必须进行人工走查，不能因为代码能运行就认为没有问题。
 
-### AI 使用心得
-- AI 适合批量生成重复性代码（如多个页面骨架、相似的路由配置）
-- AI 对第三方库的具体 API 可能记忆不准确（如图标名称），需要对照官方文档验证
-- 分任务描述需求比一次性描述所有需求效果更好
-- 构建报错时，AI 能帮助快速定位问题原因
+**问题二：旧代码残留导致路由警告**
+
+在配置新路由之前，项目中曾有 /list、/detail、/board 等旧路由路径，App.vue 中也引用了 Element Plus 的 el-menu 组件和数据看板按钮。切换到新的8路由方案和纯原生导航后，控制台偶尔出现"No match found for location with path"的警告。
+
+解决方法：确认这是 Vite HMR 热更新时旧模块缓存导致的问题，重新构建后警告消失。同时确保 App.vue 已完全替换为只引用 AppLayout 的简洁版本，不再引用旧的 Element Plus 菜单组件，避免新旧代码混用。
+
+---
+
+## 5. 今日反思
+
+今天完成了页面骨架、路由导航和公共布局三大基础设施的搭建，这三者共同构成了项目后续开发的"骨架"，虽然每个页面目前只有标题和一段描述文字，但它们的价值在于建立了清晰的项目结构和开发规范。页面骨架确保了所有功能入口都有对应的"容器"，后续开发具体功能时只需要在对应页面中填充内容，不需要再考虑文件放在哪里、路由怎么配；路由导航建立了页面之间的连接关系，用户可以通过点击导航在不同功能模块间自由切换，这是单页面应用区别于多页面网站的核心体验；公共布局将头部、导航、内容区域的职责拆分到独立组件中，避免了在每个页面重复编写相同的导航代码，也保证了整个应用视觉风格的一致性。
+
+AI 在今天的开发中发挥了重要的"批量生成器"作用，尤其是在创建多个结构相似的页面骨架和路由配置时，AI 可以快速产出格式统一的代码，大幅减少了重复性劳动。但 AI 的输出并非完美——它生成的标题命名不一致、可能残留旧代码引用，这些问题都需要人工通过浏览器实际走查才能发现。这让我认识到，AI 是高效的编码助手，但开发者必须对最终代码质量负责，"生成后必验证"是使用 AI 协作开发不可跳过的环节。今天打下的基础虽然看起来简单，但规范的目录结构、清晰的路由命名、组件化的布局拆分，都为后续添加商品列表、表单发布、用户登录等复杂功能提供了可靠的扩展基础。

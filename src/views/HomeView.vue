@@ -1,10 +1,14 @@
 <script setup lang="ts"></script>
 
 <template>
-  <section>
-    <h2>项目启动成功</h2>
-    <p>请按照每日任务要求，完成代码、证据卡和自动化检测。</p>
-  </section>
+  <main class="page">
+    <h1>校园轻集市</h1>
+    <p>欢迎来到校园轻集市，这里汇聚了二手交易、失物招领、团购拼单、跑腿服务等校园生活信息。</p>
+  </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+.page {
+  padding: 24px;
+}
+</style>

@@ -1,0 +1,298 @@
+{
+  "trades": [
+    {
+      "id": 1,
+      "title": "九成新机械键盘",
+      "category": "数码配件",
+      "price": 89,
+      "condition": "九成新",
+      "location": "东区宿舍",
+      "publisher": "软件工程 2023 级学生",
+      "publishTime": "2026-06-01 10:20",
+      "image": "",
+      "status": "open",
+      "description": "键盘使用正常，因更换设备转让。"
+    },
+    {
+      "id": 2,
+      "title": "高等数学教材",
+      "category": "教材资料",
+      "price": 18,
+      "condition": "八成新",
+      "location": "图书馆门口",
+      "publisher": "数学学院学生",
+      "publishTime": "2026-06-01 14:30",
+      "image": "",
+      "status": "open",
+      "description": "教材有少量笔记，不影响使用。"
+    },
+    {
+      "id": 3,
+      "title": "闲置自行车",
+      "category": "交通工具",
+      "price": 150,
+      "condition": "七成新",
+      "location": "西区车棚",
+      "publisher": "机械工程学院学生",
+      "publishTime": "2026-06-02 09:15",
+      "image": "",
+      "status": "open",
+      "description": "自行车骑行正常，刹车灵敏，适合校园代步。"
+    },
+    {
+      "id": 4,
+      "title": "全新未拆封耳机",
+      "category": "数码配件",
+      "price": 120,
+      "condition": "全新",
+      "location": "北区宿舍",
+      "publisher": "电子信息学院学生",
+      "publishTime": "2026-06-02 16:45",
+      "image": "",
+      "status": "open",
+      "description": "抽奖获得的耳机，自己已有，低价转让。"
+    },
+    {
+      "id": 5,
+      "title": "考研英语资料全套",
+      "category": "教材资料",
+      "price": 50,
+      "condition": "九成新",
+      "location": "考研自习室",
+      "publisher": "已上岸学长",
+      "publishTime": "2026-06-03 11:00",
+      "image": "",
+      "status": "open",
+      "description": "包含真题、词汇书、作文模板，笔记详细。"
+    },
+    {
+      "id": 6,
+      "title": "小书桌",
+      "category": "生活用品",
+      "price": 35,
+      "condition": "八成新",
+      "location": "南区宿舍",
+      "publisher": "文学院学生",
+      "publishTime": "2026-06-03 19:20",
+      "image": "",
+      "status": "open",
+      "description": "床上小书桌，可折叠，毕业季转让。"
+    }
+  ],
+  "lostFounds": [
+    {
+      "id": 1,
+      "title": "寻找黑色校园卡",
+      "type": "lost",
+      "itemName": "校园卡",
+      "location": "一食堂附近",
+      "eventTime": "2026-06-02 12:10",
+      "contact": "站内消息联系",
+      "status": "open",
+      "description": "校园卡卡套为黑色，内有学生证。"
+    },
+    {
+      "id": 2,
+      "title": "拾到蓝色雨伞",
+      "type": "found",
+      "itemName": "雨伞",
+      "location": "教学楼 A 区",
+      "eventTime": "2026-06-02 18:40",
+      "contact": "站内消息联系",
+      "status": "open",
+      "description": "雨伞放在 A 区一楼值班室。"
+    },
+    {
+      "id": 3,
+      "title": "丢失银色钥匙串",
+      "type": "lost",
+      "itemName": "钥匙",
+      "location": "篮球场",
+      "eventTime": "2026-06-03 17:30",
+      "contact": "站内消息联系",
+      "status": "open",
+      "description": "钥匙串上有一个小熊挂件，大约3把钥匙。"
+    },
+    {
+      "id": 4,
+      "title": "捡到白色充电宝",
+      "type": "found",
+      "itemName": "充电宝",
+      "location": "图书馆三楼",
+      "eventTime": "2026-06-04 14:20",
+      "contact": "站内消息联系",
+      "status": "open",
+      "description": "充电宝品牌为小米，20000mAh，放在图书馆服务台。"
+    },
+    {
+      "id": 5,
+      "title": "寻找黑色双肩包",
+      "type": "lost",
+      "itemName": "双肩包",
+      "location": "二食堂",
+      "eventTime": "2026-06-04 12:00",
+      "contact": "站内消息联系",
+      "status": "open",
+      "description": "包内有笔记本电脑和课本，非常重要。"
+    },
+    {
+      "id": 6,
+      "title": "拾到眼镜一副",
+      "type": "found",
+      "itemName": "眼镜",
+      "location": "实验楼 B 区",
+      "eventTime": "2026-06-05 10:15",
+      "contact": "站内消息联系",
+      "status": "open",
+      "description": "黑框眼镜，度数较高，放在B区一楼保安处。"
+    }
+  ],
+  "groupBuys": [
+    {
+      "id": 1,
+      "title": "周五晚火锅拼单",
+      "type": "拼餐",
+      "targetCount": 6,
+      "currentCount": 3,
+      "deadline": "2026-06-05 17:00",
+      "location": "学校南门",
+      "publisher": "计算机学院学生",
+      "status": "open",
+      "description": "AA 制，人数够后统一预约。"
+    },
+    {
+      "id": 2,
+      "title": "四六级资料团购",
+      "type": "学习资料",
+      "targetCount": 10,
+      "currentCount": 7,
+      "deadline": "2026-06-06 22:00",
+      "location": "线上确认",
+      "publisher": "外国语学院学生",
+      "status": "open",
+      "description": "达到人数后统一下单。"
+    },
+    {
+      "id": 3,
+      "title": "奶茶拼单减配送费",
+      "type": "拼餐",
+      "targetCount": 5,
+      "currentCount": 2,
+      "deadline": "2026-06-05 15:30",
+      "location": "东区宿舍",
+      "publisher": "经管学院学生",
+      "status": "open",
+      "description": "某茶新店开业，拼单满50免配送费。"
+    },
+    {
+      "id": 4,
+      "title": "毕业纪念T恤团购",
+      "type": "生活用品",
+      "targetCount": 30,
+      "currentCount": 18,
+      "deadline": "2026-06-10 20:00",
+      "location": "线上统计",
+      "publisher": "学生会成员",
+      "status": "open",
+      "description": "定制毕业季T恤，多尺码可选，印校徽和毕业年份。"
+    },
+    {
+      "id": 5,
+      "title": "周末爬山组队",
+      "type": "活动",
+      "targetCount": 8,
+      "currentCount": 4,
+      "deadline": "2026-06-07 12:00",
+      "location": "学校正门集合",
+      "publisher": "户外运动社",
+      "status": "open",
+      "description": "周末去近郊爬山，自带水和零食，强度适中。"
+    },
+    {
+      "id": 6,
+      "title": "水果拼单更划算",
+      "type": "拼餐",
+      "targetCount": 4,
+      "currentCount": 1,
+      "deadline": "2026-06-05 10:00",
+      "location": "西区宿舍",
+      "publisher": "医学院学生",
+      "status": "open",
+      "description": "水果店整箱购买更便宜，找人拼单分水果。"
+    }
+  ],
+  "errands": [
+    {
+      "id": 1,
+      "title": "帮取快递到宿舍楼下",
+      "taskType": "取快递",
+      "reward": 3,
+      "from": "菜鸟驿站",
+      "to": "西区 5 栋",
+      "deadline": "2026-06-03 19:00",
+      "publisher": "西区学生",
+      "status": "open",
+      "description": "快递较轻，送到宿舍楼下即可。"
+    },
+    {
+      "id": 2,
+      "title": "帮买一份晚餐",
+      "taskType": "代买",
+      "reward": 5,
+      "from": "二食堂",
+      "to": "实验楼 302",
+      "deadline": "2026-06-03 18:30",
+      "publisher": "实验室学生",
+      "status": "open",
+      "description": "需要在 18:30 前送到。"
+    },
+    {
+      "id": 3,
+      "title": "帮忙打印复习资料",
+      "taskType": "打印",
+      "reward": 4,
+      "from": "打印店",
+      "to": "北区教学楼 204",
+      "deadline": "2026-06-05 08:00",
+      "publisher": "法学院学生",
+      "status": "open",
+      "description": "打印20页PPT，黑白双面，早上上课前送到。"
+    },
+    {
+      "id": 4,
+      "title": "代取外卖到宿舍",
+      "taskType": "取快递",
+      "reward": 2,
+      "from": "学校南门",
+      "to": "东区 12 栋",
+      "deadline": "2026-06-04 12:30",
+      "publisher": "东区学生",
+      "status": "open",
+      "description": "外卖已下单，12点左右到南门，帮忙取一下。"
+    },
+    {
+      "id": 5,
+      "title": "图书馆占座+带书",
+      "taskType": "其他",
+      "reward": 6,
+      "from": "宿舍",
+      "to": "图书馆三楼",
+      "deadline": "2026-06-06 07:30",
+      "publisher": "考研学生",
+      "status": "open",
+      "description": "帮忙在三楼靠窗位置占座，并把宿舍的复习资料带过去。"
+    },
+    {
+      "id": 6,
+      "title": "帮忙寄快递",
+      "taskType": "其他",
+      "reward": 5,
+      "from": "南区宿舍",
+      "to": "快递点",
+      "deadline": "2026-06-05 16:00",
+      "publisher": "南区学生",
+      "status": "open",
+      "description": "包裹已打包好，帮忙送到菜鸟驿站寄出去。"
+    }
+  ]
+}

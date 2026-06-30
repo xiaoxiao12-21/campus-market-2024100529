@@ -8,6 +8,9 @@ import ErrandView from '@/views/ErrandView.vue'
 import PublishView from '@/views/PublishView.vue'
 import MessageView from '@/views/MessageView.vue'
 import UserCenterView from '@/views/UserCenterView.vue'
+import BoardView from '@/views/BoardView.vue'
+import ListView from '@/views/ListView.vue'
+import DetailView from '@/views/DetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -74,6 +77,30 @@ const router = createRouter({
       component: UserCenterView,
       meta: {
         title: '个人中心',
+      },
+    },
+    {
+      path: '/board',
+      name: 'board',
+      component: BoardView,
+      meta: {
+        title: '数据看板',
+      },
+    },
+    {
+      path: '/list',
+      name: 'list',
+      component: ListView,
+      meta: {
+        title: '商品列表',
+      },
+    },
+    {
+      path: '/detail/:id',
+      name: 'Detail',
+      component: DetailView,
+      meta: {
+        title: '商品详情',
       },
     },
   ],

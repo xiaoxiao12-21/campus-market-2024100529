@@ -123,10 +123,12 @@ import { createTrade } from '../api/trade'
 import { createLostFound } from '../api/lostFound'
 import { createGroupBuy } from '../api/groupBuy'
 import { createErrand } from '../api/errand'
+import { useUserStore } from '../stores/user'
 
 type PublishType = 'trade' | 'lostFound' | 'groupBuy' | 'errand'
 
 const router = useRouter()
+const userStore = useUserStore()
 const publishType = ref<PublishType>('trade')
 const submitting = ref(false)
 
@@ -213,7 +215,7 @@ function validateForm() {
     if (!form.taskType) {
       errors.taskType = '请输入任务类型'
     }
-    if (form.reward === '' || Number.isNaN(form.reward) || form.reward < 0) {
+    if (Number.isNaN(form.reward) || form.reward < 0) {
       errors.reward = '酬劳不能为负数'
     }
     if (!form.from) {
@@ -255,7 +257,7 @@ async function handleSubmit() {
         price: Number(form.price) || 0,
         condition: form.condition,
         location: form.location,
-        publisher: '当前用户',
+        publisher: userStore.displayName,
         publishTime: getCurrentTime(),
         image: '',
         status: 'open',
@@ -274,6 +276,7 @@ async function handleSubmit() {
         location: form.location,
         eventTime: formatDateTime(form.eventTime),
         contact: '站内消息联系',
+        publisher: userStore.displayName,
         status: 'open',
         description: form.description,
       })
@@ -290,7 +293,7 @@ async function handleSubmit() {
         currentCount: 1,
         deadline: formatDateTime(form.deadline),
         location: form.location,
-        publisher: '当前用户',
+        publisher: userStore.displayName,
         status: 'open',
         description: form.description,
       })
@@ -307,7 +310,7 @@ async function handleSubmit() {
         from: form.from,
         to: form.to,
         deadline: formatDateTime(form.deadline),
-        publisher: '当前用户',
+        publisher: userStore.displayName,
         status: 'open',
         description: form.description,
       })

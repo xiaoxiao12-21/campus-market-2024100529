@@ -9,12 +9,17 @@ export interface LostFoundItem {
   eventTime: string
   contact: string
   publisher: string
+  image: string
   status: string
   description: string
 }
 
 export function getLostFounds() {
   return http.get<LostFoundItem[]>('/lostFounds')
+}
+
+export function getLostFoundById(id: string) {
+  return http.get<LostFoundItem>(`/lostFounds/${id}`)
 }
 
 export function createLostFound(data: LostFoundItem) {

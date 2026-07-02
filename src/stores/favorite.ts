@@ -27,20 +27,26 @@ export const useFavoriteStore = defineStore('favorite', {
 
       if (!exists) {
         this.favorites.push(item)
+        return true
       }
+      return false
     },
 
     removeFavorite(type: FavoriteItem['type'], id: number) {
+      const existed = this.isFavorite(type, id)
       this.favorites = this.favorites.filter((item) => {
         return !(item.type === type && item.id === id)
       })
+      return existed
     },
 
-    toggleFavorite(item: FavoriteItem) {
+    toggleFavorite(item: FavoriteItem): boolean {
       if (this.isFavorite(item.type, item.id)) {
         this.removeFavorite(item.type, item.id)
+        return false
       } else {
         this.addFavorite(item)
+        return true
       }
     },
   },

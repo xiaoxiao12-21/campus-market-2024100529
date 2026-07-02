@@ -1,126 +1,177 @@
-Campus Market Seed
+# 校园轻集市
 
-《校园轻集市》AI 辅助前端工程实践课程种子仓库
+## 1. 项目简介
 
-⸻
+"校园轻集市"是一个面向高校校园生活场景的 PC 端 Web App，主要支持二手交易、失物招领、拼单搭子、跑腿委托等功能。项目基于 Vue 3 + TypeScript + Vite 技术栈开发，使用 JSON Server 提供 Mock 数据服务，旨在为校园师生提供一个便捷的信息交流与互助平台。
 
-项目简介
+## 2. 技术栈
 
-Campus Market Seed 是《校园轻集市》课程的统一种子仓库（Seed Repository）。
+- **前端框架**：Vue 3 (Composition API)
+- **构建工具**：Vite
+- **类型系统**：TypeScript
+- **路由管理**：Vue Router
+- **状态管理**：Pinia
+- **HTTP 客户端**：Axios
+- **UI 组件库**：Element Plus
+- **Mock 服务**：JSON Server
+- **代码规范**：ESLint + Oxlint
+- **包管理器**：pnpm
 
-本仓库不仅提供 Vue 3 前端项目模板，还包含课程文档、开发规范、AI 协作规范、过程性证据模板以及自动检测框架，为整个实训提供统一的开发基础。
+## 3. 核心功能
 
-本仓库是所有同学开展项目实践的起点。
+### 3.1 首页与导航
+- 校园集市功能入口展示
+- 顶部导航栏快速跳转
+- 响应式布局适配
 
-⸻
+### 3.2 二手交易
+- 商品列表展示（含图片、价格、成色、地点）
+- 商品搜索功能
+- 商品详情查看
+- 商品收藏/取消收藏
+- 分类筛选
 
-项目目标
+### 3.3 失物招领
+- 失物/招领信息列表
+- 详情查看与联系方式
+- 类型筛选（寻物启事/失物招领）
 
-通过本课程，你将完成一个基于 Vue 3 的校园轻集市前端项目，并体验真实的软件工程开发流程。
+### 3.4 拼单搭子
+- 拼单信息列表（外卖、奶茶、学习等）
+- 拼单进度展示
+- 人数统计与满员提示
+- 加入拼单功能
 
-课程重点包括：
+### 3.5 跑腿委托
+- 跑腿任务列表（代取快递、代打印、代买等）
+- 任务路线展示
+- 报酬与截止时间显示
+- 接单功能
 
-* Vue 3 工程化开发
-* Git 版本管理
-* AI Coding 协作开发
-* 软件工程规范
-* 过程性证据管理
-* 项目验收与自动检测
+### 3.6 信息发布
+- 统一发布入口
+- 多类型信息发布表单
+- 表单校验
+- 发布成功后自动跳转对应列表
 
-⸻
+### 3.7 用户中心
+- 用户资料展示
+- 我的收藏管理
+- 登录/注册功能
+- 本地登录状态持久化
 
-快速开始
+### 3.8 状态反馈
+- 加载状态提示
+- 空状态提示
+- 错误状态提示（含重试按钮）
+- Toast 消息提示
 
-首次使用本仓库，请按照以下顺序阅读文档：
+## 4. 项目运行
 
-README.md
-    │
-    ▼
-docs/guide/Environment_Setup.md
-    │
-    ▼
-docs/guide/Getting_Started.md
+### 4.1 环境要求
 
-随后执行：
+- Node.js >= 22.18.0 或 >= 24.12.0
+- pnpm >= 11.9.0
 
-git clone <课程仓库地址>
-cd campus-market-seed
-nvm use
+### 4.2 安装依赖
+
+```bash
 pnpm install
-pnpm dev
+```
 
-浏览器访问：
+### 4.3 启动 Mock 服务
 
-http://localhost:5173
+```bash
+pnpm run mock
+```
 
-如果页面显示：
+Mock 服务将在 `http://localhost:3001` 启动，提供 RESTful API 接口。
 
-项目启动成功
+### 4.4 启动前端项目
 
-说明开发环境已经配置完成。
+```bash
+pnpm run dev
+```
 
-⸻
+前端开发服务器将在 `http://localhost:5173` 启动。
 
-项目结构
+### 4.5 构建项目
 
-campus-market-seed
-├── docs
-│   ├── ai              # AI 协作规范
-│   ├── evidence        # 每日过程证据
-│   └── guide           # 学生使用指南
-├── scripts             # 自动检测工具
-├── src                 # 项目源码
-└── CHECK_REPORT.md     # 自动检测报告（后续版本启用）
+```bash
+pnpm run build
+```
 
-⸻
+构建产物将输出到 `dist/` 目录。
 
-文档导航
+### 4.6 类型检查
 
-文档	说明
-docs/guide/Environment_Setup.md	配置课程开发环境
-docs/guide/Getting_Started.md	Day1 快速开始指南
-docs/ai/AI_Collaboration_Card.md	AI 协作记录规范
-docs/evidence/	每日过程性证据模板
+```bash
+pnpm run type-check
+```
 
-⸻
+### 4.7 代码检查
 
-技术栈
+```bash
+pnpm run lint
+```
 
-* Vue 3
-* TypeScript
-* Vite
-* Vue Router
-* Pinia
-* ESLint
-* Oxlint
+## 5. 项目结构
 
-⸻
+```
+campus-market-seed/
+├── docs/                    # 项目文档
+│   ├── ai/                 # AI 协作记录
+│   ├── evidence/           # 每日开发证据
+│   └── guide/              # 使用指南
+├── public/                 # 静态资源
+│   └── images/            # 图片资源
+├── src/                    # 源代码
+│   ├── api/               # API 接口封装
+│   ├── assets/            # 样式资源
+│   ├── components/        # 公共组件
+│   ├── router/            # 路由配置
+│   ├── stores/            # Pinia 状态管理
+│   ├── views/             # 页面视图
+│   ├── App.vue            # 根组件
+│   └── main.ts            # 入口文件
+├── db.json                # Mock 数据
+├── index.html             # HTML 入口
+├── package.json           # 项目配置
+├── tsconfig.json          # TypeScript 配置
+└── vite.config.ts         # Vite 配置
+```
 
-开发规范
+## 6. 页面路由
 
-在整个实训过程中，请遵循以下要求：
+| 路由路径 | 页面名称 | 说明 |
+|---------|---------|------|
+| `/` | 首页 | 功能入口展示 |
+| `/trade` | 二手交易 | 商品列表 |
+| `/trade/:id` | 商品详情 | 二手商品详情页 |
+| `/lost-found` | 失物招领 | 失物招领列表 |
+| `/lost-found/:id` | 详情页 | 失物招领详情 |
+| `/group-buy` | 拼单搭子 | 拼单列表 |
+| `/group-buy/:id` | 拼单详情 | 拼单详情页 |
+| `/errand` | 跑腿委托 | 任务列表 |
+| `/errand/:id` | 任务详情 | 跑腿任务详情 |
+| `/publish` | 发布信息 | 信息发布表单 |
+| `/message` | 消息中心 | 消息通知 |
+| `/user` | 个人中心 | 用户信息与收藏 |
+| `/login` | 登录 | 用户登录 |
+| `/register` | 注册 | 用户注册 |
 
-* 使用 Git 管理项目开发过程；
-* 每完成一个独立功能及时提交 Commit；
-* 合理使用 AI Coding 工具辅助开发；
-* 保留 AI 协作记录；
-* 每天完成对应的 Evidence；
-* 保持项目始终能够正常运行。
+## 7. 开发说明
 
-⸻
+本项目是《AI 辅助前端工程实践》课程实训项目，采用 7 天迭代开发模式：
 
-后续版本
+- Day 1：项目初始化与环境搭建
+- Day 2：页面骨架与路由配置
+- Day 3：Mock 数据与列表渲染
+- Day 4：发布表单与数据创建
+- Day 5：Pinia 状态管理与收藏功能
+- Day 6：交互优化与错误状态处理
+- Day 7：详情页设计、功能走查与项目收尾
 
-后续版本将逐步提供：
+## 8. License
 
-* 自动检测工具（Check Engine）
-* 自动评分报告
-* Git 提交分析
-* AI 协作分析
-* 教师验收工具
-
-⸻
-
-License
-
-本仓库仅用于《校园轻集市》课程教学与实践。
+本项目仅用于课程教学与实践。

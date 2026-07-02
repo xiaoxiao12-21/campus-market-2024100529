@@ -1,19 +1,17 @@
 <template>
-  <label class="form-field">
-    <span class="label">
+  <div class="form-field">
+    <label v-if="label" class="field-label">
       {{ label }}
-      <em v-if="required">*</em>
-    </span>
-
+      <span v-if="required" class="required">*</span>
+    </label>
     <slot />
-
-    <span v-if="error" class="error">{{ error }}</span>
-  </label>
+    <p v-if="error" class="field-error">{{ error }}</p>
+  </div>
 </template>
 
 <script setup lang="ts">
 defineProps<{
-  label: string
+  label?: string
   required?: boolean
   error?: string
 }>()
@@ -23,23 +21,23 @@ defineProps<{
 .form-field {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
-.label {
+.field-label {
   font-size: 14px;
-  color: #374151;
   font-weight: 500;
+  color: #374151;
 }
 
-.label em {
-  color: #ef4444;
-  font-style: normal;
-  margin-left: 4px;
+.required {
+  color: #dc2626;
+  margin-left: 2px;
 }
 
-.error {
-  color: #ef4444;
+.field-error {
+  margin: 0;
   font-size: 13px;
+  color: #dc2626;
 }
 </style>

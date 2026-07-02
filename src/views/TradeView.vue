@@ -5,30 +5,50 @@
       <p>浏览同学发布的闲置物品，发现校园内的实用好物。</p>
     </div>
 
-    <div v-if="loading" class="loading-state">加载中...</div>
-    <div v-else-if="errorMsg" class="error-state">{{ errorMsg }}</div>
-    <EmptyState v-else-if="trades.length === 0" text="暂无二手交易信息" />
+    <SearchBar
+      v-model="keyword"
+      placeholder="搜索商品标题、分类、地点或描述"
+    />
+
+    <LoadingState
+      v-if="loading"
+      text="正在加载二手交易信息..."
+    />
+
+    <ErrorState
+      v-else-if="error"
+      message="二手交易数据加载失败，请检查 Mock 服务是否正常运行。"
+      show-retry
+      @retry="loadTrades"
+    />
+
+    <EmptyState
+      v-else-if="filteredTrades.length === 0"
+      text="暂无符合条件的二手交易信息"
+    />
+
     <div v-else class="list">
       <ItemCard
-        v-for="item in trades"
+        v-for="item in filteredTrades"
         :key="item.id"
         :title="item.title"
         :description="item.description"
         :tag="item.category"
         :location="item.location"
         :time="item.publishTime"
+        :image="item.image"
+        :to="`/trade/${item.id}`"
       >
         <template #footer>
-          <strong>¥{{ item.price }}</strong>
-          <span class="condition">{{ item.condition }}</span>
-
-          <button class="favorite-btn" @click="favoriteStore.toggleFavorite({
-            id: Number(item.id),
-            type: 'trade',
-            title: item.title,
-            description: item.description,
-            location: item.location
-          })">
+          <div class="price-group">
+            <strong>¥{{ item.price }}</strong>
+            <span class="condition">{{ item.condition }}</span>
+          </div>
+          <button
+            class="favorite-btn"
+            :class="{ active: favoriteStore.isFavorite('trade', Number(item.id)) }"
+            @click.stop="handleToggleFavorite(item)"
+          >
             {{ favoriteStore.isFavorite('trade', Number(item.id)) ? '已收藏' : '收藏' }}
           </button>
         </template>
@@ -38,27 +58,70 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import ItemCard from '../components/ItemCard.vue'
+import { computed, onMounted, ref } from 'vue'
+
 import EmptyState from '../components/EmptyState.vue'
+import ErrorState from '../components/ErrorState.vue'
+import ItemCard from '../components/ItemCard.vue'
+import LoadingState from '../components/LoadingState.vue'
+import SearchBar from '../components/SearchBar.vue'
 import { getTrades, type TradeItem } from '../api/trade'
 import { useFavoriteStore } from '../stores/favorite'
+import { useToastStore } from '../stores/toast'
 
 const favoriteStore = useFavoriteStore()
+const toastStore = useToastStore()
 const trades = ref<TradeItem[]>([])
-const loading = ref(true)
-const errorMsg = ref('')
+const loading = ref(false)
+const error = ref(false)
 
-onMounted(async () => {
+const keyword = ref('')
+
+const filteredTrades = computed(() => {
+  const value = keyword.value.trim()
+
+  if (!value) {
+    return trades.value
+  }
+
+  return trades.value.filter((item) => {
+    return (
+      item.title.includes(value) ||
+      item.category.includes(value) ||
+      item.location.includes(value) ||
+      item.description.includes(value)
+    )
+  })
+})
+
+function handleToggleFavorite(item: TradeItem) {
+  const added = favoriteStore.toggleFavorite({
+    id: Number(item.id),
+    type: 'trade',
+    title: item.title,
+    description: item.description,
+    location: item.location
+  })
+  toastStore.success(added ? '收藏成功' : '已取消收藏')
+}
+
+async function loadTrades() {
+  loading.value = true
+  error.value = false
+
   try {
     const res = await getTrades()
     trades.value = res.data
-  } catch (e) {
-    errorMsg.value = '数据加载失败，请检查 Mock 服务器是否正常运行'
-    console.error('加载二手交易数据失败：', e)
+  } catch (err) {
+    console.error(err)
+    error.value = true
   } finally {
     loading.value = false
   }
+}
+
+onMounted(() => {
+  loadTrades()
 })
 </script>
 
@@ -90,9 +153,15 @@ onMounted(async () => {
   gap: 16px;
 }
 
+.price-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .condition {
-  margin-left: 12px;
   color: #6b7280;
+  font-size: 12px;
 }
 
 .favorite-btn {
@@ -103,27 +172,22 @@ onMounted(async () => {
   cursor: pointer;
   background: #f3f4f6;
   color: #374151;
+  font-size: 12px;
+  transition: all 0.2s;
+  position: relative;
+  z-index: 1;
 }
 
 .favorite-btn:hover {
   background: #e5e7eb;
 }
 
-.loading-state,
-.error-state {
-  padding: 32px;
-  text-align: center;
-  background: #fff;
-  border-radius: 12px;
+.favorite-btn.active {
+  background: #dbeafe;
+  color: #2563eb;
 }
 
-.loading-state {
-  color: #6b7280;
-}
-
-.error-state {
-  color: #dc2626;
-  border: 1px solid #fecaca;
-  background: #fef2f2;
+.favorite-btn.active:hover {
+  background: #bfdbfe;
 }
 </style>

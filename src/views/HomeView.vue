@@ -2,7 +2,7 @@
   <div class="home-page">
     <section class="hero">
       <h1>校园轻集市</h1>
-      <p>欢迎来到校园轻集市，这里汇聚了二手交易、失物招领、团购拼单、跑腿服务等校园生活信息。</p>
+      <p>欢迎来到校园轻集市，这里汇聚了二手交易、失物招领、拼单搭子、跑腿委托等校园生活信息。</p>
     </section>
 
     <section class="quick-entries">

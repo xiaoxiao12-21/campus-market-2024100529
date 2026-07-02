@@ -5,29 +5,48 @@
       <p>找搭子一起拼单、团购、组队，享受更优惠的价格和有趣的校园生活。</p>
     </div>
 
-    <div v-if="loading" class="loading-state">加载中...</div>
-    <div v-else-if="errorMsg" class="error-state">{{ errorMsg }}</div>
-    <EmptyState v-else-if="groupBuys.length === 0" text="暂无拼单团购信息" />
+    <SearchBar
+      v-model="keyword"
+      placeholder="搜索标题、类型、地点或描述"
+    />
+
+    <LoadingState
+      v-if="loading"
+      text="正在加载拼单搭子信息..."
+    />
+
+    <ErrorState
+      v-else-if="error"
+      message="拼单搭子数据加载失败，请检查 Mock 服务是否正常运行。"
+      show-retry
+      @retry="loadGroupBuys"
+    />
+
+    <EmptyState
+      v-else-if="filteredItems.length === 0"
+      text="暂无符合条件的拼单搭子信息"
+    />
+
     <div v-else class="list">
       <ItemCard
-        v-for="item in groupBuys"
+        v-for="item in filteredItems"
         :key="item.id"
         :title="item.title"
         :description="item.description"
         :tag="item.type"
         :location="item.location"
         :time="item.deadline"
+        :image="item.image"
+        :to="`/group-buy/${item.id}`"
       >
         <template #footer>
           <span class="progress">{{ item.currentCount }}/{{ item.targetCount }} 人</span>
 
-          <button class="favorite-btn" @click="favoriteStore.toggleFavorite({
-            id: Number(item.id),
-            type: 'groupBuy',
-            title: item.title,
-            description: item.description,
-            location: item.location
-          })">
+          <button
+            class="favorite-btn"
+            :class="{ active: favoriteStore.isFavorite('groupBuy', Number(item.id)) }"
+            @click.stop="handleToggleFavorite(item)"
+          >
             {{ favoriteStore.isFavorite('groupBuy', Number(item.id)) ? '已收藏' : '收藏' }}
           </button>
         </template>
@@ -37,27 +56,68 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import ItemCard from '../components/ItemCard.vue'
 import EmptyState from '../components/EmptyState.vue'
+import ErrorState from '../components/ErrorState.vue'
+import LoadingState from '../components/LoadingState.vue'
+import SearchBar from '../components/SearchBar.vue'
 import { getGroupBuys, type GroupBuyItem } from '../api/groupBuy'
 import { useFavoriteStore } from '../stores/favorite'
+import { useToastStore } from '../stores/toast'
 
 const favoriteStore = useFavoriteStore()
+const toastStore = useToastStore()
 const groupBuys = ref<GroupBuyItem[]>([])
-const loading = ref(true)
-const errorMsg = ref('')
+const loading = ref(false)
+const error = ref(false)
+const keyword = ref('')
 
-onMounted(async () => {
+const filteredItems = computed(() => {
+  const value = keyword.value.trim()
+
+  if (!value) {
+    return groupBuys.value
+  }
+
+  return groupBuys.value.filter((item) => {
+    return (
+      item.title.includes(value) ||
+      item.type.includes(value) ||
+      item.location.includes(value) ||
+      item.description.includes(value)
+    )
+  })
+})
+
+function handleToggleFavorite(item: GroupBuyItem) {
+  const added = favoriteStore.toggleFavorite({
+    id: Number(item.id),
+    type: 'groupBuy',
+    title: item.title,
+    description: item.description,
+    location: item.location
+  })
+  toastStore.success(added ? '收藏成功' : '已取消收藏')
+}
+
+async function loadGroupBuys() {
+  loading.value = true
+  error.value = false
+
   try {
     const res = await getGroupBuys()
     groupBuys.value = res.data
-  } catch (e) {
-    errorMsg.value = '数据加载失败，请检查 Mock 服务器是否正常运行'
-    console.error('加载拼单团购数据失败：', e)
+  } catch (err) {
+    console.error(err)
+    error.value = true
   } finally {
     loading.value = false
   }
+}
+
+onMounted(() => {
+  loadGroupBuys()
 })
 </script>
 
@@ -102,27 +162,19 @@ onMounted(async () => {
   cursor: pointer;
   background: #f3f4f6;
   color: #374151;
+  transition: all 0.2s;
 }
 
 .favorite-btn:hover {
   background: #e5e7eb;
 }
 
-.loading-state,
-.error-state {
-  padding: 32px;
-  text-align: center;
-  background: #fff;
-  border-radius: 12px;
+.favorite-btn.active {
+  background: #dbeafe;
+  color: #2563eb;
 }
 
-.loading-state {
-  color: #6b7280;
-}
-
-.error-state {
-  color: #dc2626;
-  border: 1px solid #fecaca;
-  background: #fef2f2;
+.favorite-btn.active:hover {
+  background: #bfdbfe;
 }
 </style>

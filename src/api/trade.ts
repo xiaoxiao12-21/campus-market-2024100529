@@ -18,6 +18,10 @@ export function getTrades() {
   return http.get<TradeItem[]>('/trades')
 }
 
+export function getTradeById(id: string) {
+  return http.get<TradeItem>(`/trades/${id}`)
+}
+
 export function createTrade(data: TradeItem) {
   return http.post<TradeItem>('/trades', data)
 }
